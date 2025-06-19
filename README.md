@@ -20,3 +20,12 @@ where date(p.payment_date) = '2005-07-30' and p.payment_date = r.rental_date and
 
 
 
+### Задание 1
+SELECT SUM(index_length) / SUM(data_length) * 100
+FROM INFORMATION_SCHEMA.TABLES;
+
+### Задание 2
+
+
+
+### Задание 3
