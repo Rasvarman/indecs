@@ -14,9 +14,6 @@ where date(p.payment_date) = '2005-07-30' and p.payment_date = r.rental_date and
 перечислите узкие места;
 оптимизируйте запрос: внесите корректировки по использованию операторов, при необходимости добавьте индексы.
 
-Задание 3*
-Самостоятельно изучите, какие типы индексов используются в PostgreSQL. Перечислите те индексы, которые используются в PostgreSQL, а в MySQL — нет.
-
 
 
 
@@ -28,4 +25,30 @@ FROM INFORMATION_SCHEMA.TABLES;
 
 
 
-### Задание 3
+CREATE INDEX IF NOT EXISTS pay_date_idx ON payment(payment_date);
+SELECT 
+    c.last_name,
+    c.first_name,
+    f.title AS film,
+    SUM(p.amount) AS total
+
+FROM payment p                
+
+JOIN rental r ON p.rental_id = r.rental_id
+JOIN customer c ON r.customer_id = c.customer_id
+
+JOIN inventory i ON r.inventory_id = i.inventory_id 
+JOIN film f ON i.film_id = f.film_id
+
+WHERE p.payment_date >= '2005-07-30'
+  AND p.payment_date < '2005-07-31'    
+
+
+GROUP BY 
+    c.customer_id,
+    f.film_id,
+    c.last_name,
+    c.first_name;  
+
+
+
